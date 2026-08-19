@@ -1,0 +1,12 @@
+{
+  "name": "@complicatedauth/server",
+  "version": "0.1.0",
+  "description": "Server-side BFF SDK for ComplicatedAuth browser clients",
+  "type": "module",
+  "files": ["dist", "README.md"],
+  "exports": {".": {"types": "./dist/index.d.ts", "import": "./dist/index.js"}},
+  "scripts": {"build": "tsc -p tsconfig.build.json", "typecheck": "tsc --noEmit", "test": "vitest run"},
+  "devDependencies": {"typescript": "^5.8.3", "vitest": "^3.2.4"},
+  "engines": {"node": ">=20"},
+  "license": "MIT"
+}

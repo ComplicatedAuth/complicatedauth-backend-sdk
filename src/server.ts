@@ -3,7 +3,7 @@ import {MemoryReferenceStore, type ReferenceKind, type ReferenceStore} from "./s
 export interface ComplicatedAuthServerOptions {
   backendUrl: string;
   projectUid: string;
-  apiKey: string;
+  serviceCredential: string;
   store?: ReferenceStore;
   fetch?: typeof globalThis.fetch;
 }
@@ -22,7 +22,7 @@ interface BackendLogin {
 export class ComplicatedAuthServer {
   private readonly runtimeUrl: string;
   private readonly projectUrl: string;
-  private readonly apiKey: string;
+  private readonly serviceCredential: string;
   private readonly store: ReferenceStore;
   private readonly fetcher: typeof globalThis.fetch;
 
@@ -30,7 +30,7 @@ export class ComplicatedAuthServer {
     const root = options.backendUrl.replace(/\/$/, "");
     this.projectUrl = `${root}/v1/projects/${encodeURIComponent(options.projectUid)}`;
     this.runtimeUrl = `${this.projectUrl}/runtime`;
-    this.apiKey = options.apiKey;
+    this.serviceCredential = options.serviceCredential;
     this.store = options.store ?? new MemoryReferenceStore();
     this.fetcher = options.fetch ?? globalThis.fetch.bind(globalThis);
   }
@@ -141,7 +141,7 @@ export class ComplicatedAuthServer {
 
   private rawBackend(url: string, init: RequestInit): Promise<Response> {
     const headers = new Headers(init.headers);
-    headers.set("Authorization", `Bearer ${this.apiKey}`);
+    headers.set("Authorization", `Bearer ${this.serviceCredential}`);
     if (init.body && !headers.has("Content-Type") && typeof init.body === "string") headers.set("Content-Type", "application/json");
     headers.set("Accept", "application/json");
     return this.fetcher(url, {...init, headers, cache: "no-store"});

@@ -9,7 +9,7 @@ describe("ComplicatedAuthServer", () => {
     const fetcher = vi.fn()
       .mockResolvedValueOnce(json({login_reference: "backend-login", expires_at: "2099-01-01T00:00:00Z"}, 201))
       .mockResolvedValueOnce(json({session_reference: "backend-session", expires_at: "2099-01-02T00:00:00Z", project_user: {uid: "user-1"}}));
-    const server = new ComplicatedAuthServer({backendUrl: "https://auth.internal", projectUid: "project", apiKey: "secret", fetch: fetcher});
+    const server = new ComplicatedAuthServer({backendUrl: "https://auth.internal", projectUid: "project", serviceCredential: "secret", fetch: fetcher});
 
     const start = await server.handle(new Request("https://app.test/auth/login/start", {method: "POST", body: JSON.stringify({email: "a@example.com"})}));
     expect(await start.json()).toEqual({login_attempt: "browser-login", expires_at: "2099-01-01T00:00:00Z"});

@@ -12,7 +12,7 @@ await redis.connect();
 const auth = new ComplicatedAuthServer({
   backendUrl: process.env.COMPLICATEDAUTH_URL!,
   projectUid: process.env.COMPLICATEDAUTH_PROJECT_UID!,
-  apiKey: process.env.COMPLICATEDAUTH_API_KEY!,
+  serviceCredential: process.env.COMPLICATEDAUTH_SERVICE_CREDENTIAL!,
   store: new RedisReferenceStore({client: redis}),
 });
 
